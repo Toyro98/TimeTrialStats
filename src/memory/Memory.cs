@@ -46,6 +46,7 @@ namespace TimeTrialStats
 
             if (CheckpointPassed == TotalCheckpoints && StretchId != 0 && Time != 0f)
             {
+                sessionStats.Add(new Stats(StretchId, Time, AvgSpeed, Distance));
                 averageStats.Add(new Stats(StretchId, Time, AvgSpeed, Distance, 1));
                 totalStats.Add(new Stats(StretchId, 0f, 0f, CheckpointPassed, TimerCheckpointPassed, 0));
             }
@@ -112,39 +113,6 @@ namespace TimeTrialStats
 
         public void CheckMemory()
         {
-            // Update if we passed a checkpoint
-            if (CheckpointPassed - oldCheckpointPassed == 1)
-            {
-                for (int i = 0; i < totalStats.Count(); i++)
-                {
-                    if (StretchId == totalStats[i].StretchId)
-                    {
-                        sessionStats[i].CheckpointsPassed += 1;
-                        totalStats[i].CheckpointsPassed += 1;
-
-                        break;
-                    }
-                }
-            }
-
-            // Update if we passed a timed checkpoint
-            if (TimerCheckpointPassed - oldTimerCheckpointPassed == 1)
-            {
-                for (int i = 0; i < totalStats.Count(); i++)
-                {
-                    if (StretchId == totalStats[i].StretchId)
-                    {
-                        sessionStats[i].TimerCheckpointsPassed += 1;
-                        totalStats[i].TimerCheckpointsPassed += 1;
-                        break;
-                    }
-                }
-            }
-
-            // Save current checkpoint to previous variables
-            oldCheckpointPassed = CheckpointPassed;
-            oldTimerCheckpointPassed = TimerCheckpointPassed;
-
             // Check if we have finished the time trial
             // updatedStats are there so we don't add values again
             if (Time != 0f && CheckpointPassed == TotalCheckpoints && TotalCheckpoints != 0 && updatedStats == false)
@@ -177,6 +145,39 @@ namespace TimeTrialStats
             {
                 updatedStats = false;
             }
+
+            // Update if we passed a checkpoint
+            if (CheckpointPassed - oldCheckpointPassed == 1)
+            {
+                for (int i = 0; i < totalStats.Count(); i++)
+                {
+                    if (StretchId == totalStats[i].StretchId)
+                    {
+                        sessionStats[i].CheckpointsPassed += 1;
+                        totalStats[i].CheckpointsPassed += 1;
+
+                        break;
+                    }
+                }
+            }
+
+            // Update if we passed a timed checkpoint
+            if (TimerCheckpointPassed - oldTimerCheckpointPassed == 1)
+            {
+                for (int i = 0; i < totalStats.Count(); i++)
+                {
+                    if (StretchId == totalStats[i].StretchId)
+                    {
+                        sessionStats[i].TimerCheckpointsPassed += 1;
+                        totalStats[i].TimerCheckpointsPassed += 1;
+                        break;
+                    }
+                }
+            }
+
+            // Save current checkpoint to previous variables
+            oldCheckpointPassed = CheckpointPassed;
+            oldTimerCheckpointPassed = TimerCheckpointPassed;
         }
 
         public bool StatsExistsForStretchId()
@@ -224,13 +225,14 @@ namespace TimeTrialStats
                         distance = sessionStats[i].Distance;
                     }
                 }
-                else
-                {
-                    time = 0f;
-                }
             }
 
-            return new Stats(time, avgSpeed, distance);
+            if (time != 69420f)
+            {
+                return new Stats(time, avgSpeed, distance);
+            }
+
+            return new Stats(0f, 0f, 0f);
         }
 
         public Stats GetAverageStats()

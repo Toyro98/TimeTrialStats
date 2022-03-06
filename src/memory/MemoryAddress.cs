@@ -18,7 +18,13 @@ namespace TimeTrialStats
 
         public void Update(MemoryHelper memoryHelper)
         {
-            baseAddress = memoryHelper.GetBaseAddress(pointer);
+            uint newBaseAddress = memoryHelper.GetBaseAddress(pointer);
+
+            if (newBaseAddress != 0)
+            {
+                baseAddress = newBaseAddress;
+            }
+
             target = MemoryUtils.OffsetCalculator(memoryHelper, baseAddress, offsets);
         }
     }

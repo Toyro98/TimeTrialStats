@@ -17,7 +17,19 @@ namespace TimeTrialStats
 
         public uint GetBaseAddress(uint pointer)
         {
-            return (uint)process.MainModule.BaseAddress + pointer;
+            try
+            {
+                if (process.MainModule == null)
+                {
+                    return 0;
+                }
+
+                return (uint)process.MainModule.BaseAddress + pointer;
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                return 0;
+            }
         }
 
         public T ReadMemory<T>(MemoryAddress memoryAddress)
