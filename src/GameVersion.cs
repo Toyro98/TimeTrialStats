@@ -8,51 +8,59 @@ namespace TimeTrialStats
         public static Version Current { get; private set; }
         public static string MemorySize { get; private set; }
 
-        public void DetectGameVersion()
+        public string DetectGameVersion()
         {
             Process process = Process.GetProcessesByName("MirrorsEdge").FirstOrDefault();
 
             if (process == null)
             {
-                return;
+                return null;
             }
 
-            switch (process.MainModule.ModuleMemorySize)
+            try
             {
-                case 32976896:
-                    Current = Version.Steam;
-                    break;
+                switch (process.MainModule.ModuleMemorySize)
+                {
+                    case 32976896:
+                        Current = Version.Steam;
+                        break;
 
-                case 42889216:
-                    Current = Version.Origin;
-                    break;
+                    case 42889216:
+                        Current = Version.Origin;
+                        break;
 
-                case 32632832:
-                    Current = Version.Steam;
-                    break;
+                    case 32632832:
+                        Current = Version.GoG;
+                        break;
 
-                case 60298504:
-                    Current = Version.Reloaded;
-                    break;
+                    case 60298504:
+                        Current = Version.Reloaded;
+                        break;
 
-                case 43794432:
-                    Current = Version.OriginDLC;
-                    break;
+                    case 43794432:
+                        Current = Version.OriginDLC;
+                        break;
 
-                case 42717184:
-                    Current = Version.OriginJP;
-                    break;
+                    case 42717184:
+                        Current = Version.OriginJP;
+                        break;
 
-                case 42876928:
-                    Current = Version.Reloaded;
-                    break;
+                    case 42876928:
+                        Current = Version.Dvd;
+                        break;
 
-                default:
-                    Current = Version.Unknown;
-                    break;
+                    default:
+                        Current = Version.Unknown;
+                        break;
+                }
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                return null;
             }
 
             MemorySize = process.MainModule.ModuleMemorySize.ToString();
+            return MemorySize;
         }
     }
     
