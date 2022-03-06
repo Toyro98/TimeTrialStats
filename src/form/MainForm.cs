@@ -36,7 +36,7 @@ namespace TimeTrialStats
             // User has to manually click on Retry once game has started
             while (Utils.IsMirrorsEdgeRunning() == false)
             {
-                DialogResult dialog = MessageBox.Show("I had problems finding the Mirror's Edge proccess...", "MirrorsEdge.exe not found!", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                DialogResult dialog = MessageBox.Show("I had problems finding the Mirror's Edge process...", "MirrorsEdge.exe not found!", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Cancel)
                 {
@@ -79,7 +79,7 @@ namespace TimeTrialStats
             else
             {
                 // Clear discord status
-                discord.Cleanup();
+                discord.Clear();
 
                 while (true)
                 {
@@ -278,7 +278,10 @@ namespace TimeTrialStats
 
             while (true)
             {
-                version.DetectGameVersion();
+                if (version.DetectGameVersion() == null)
+                {
+                    continue;
+                }
 
                 // Loop through all supported versions and see if they use one of it
                 for (int i = 0; i < supportedVersions.Count(); i++)
