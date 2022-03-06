@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -22,6 +23,7 @@ namespace TimeTrialStats
         private void StatsViewerForm_Load(object sender, EventArgs e)
         {
             RunStatsViewer.Rows.Clear();
+            runs.Clear();
             PopulateRunStatsViewer();
         }
 
@@ -106,15 +108,36 @@ namespace TimeTrialStats
                 FileName = "run"
             };
 
-            saveFile.ShowDialog();
-
-            if (saveFile.FileName != "")
+            // Workaround for System.Threading.ThreadStateException
+            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.MTA)
             {
+                saveFile.FileName = "run_" + new Random().Next(ushort.MaxValue) + ".json";
+
                 // Serialize 
                 string json = JsonConvert.SerializeObject(runs, Formatting.Indented);
 
                 // Write to file
                 File.WriteAllText(saveFile.FileName, json);
+
+                DialogResult dialog = MessageBox.Show("You're seeing this message because of a workaround.\nIt has been saved as \"" + saveFile.FileName + "\" in the same location where you started the Program.","Save Successfull!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (dialog == DialogResult.OK)
+                {
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                saveFile.ShowDialog();
+
+                if (saveFile.FileName != "")
+                {
+                    // Serialize 
+                    string json = JsonConvert.SerializeObject(runs, Formatting.Indented);
+
+                    // Write to file
+                    File.WriteAllText(saveFile.FileName, json);
+                }
             }
         }
     }
