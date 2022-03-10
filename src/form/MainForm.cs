@@ -265,17 +265,6 @@ namespace TimeTrialStats
 
         private void GetGameVersion()
         {
-            bool supportedVersion = false;
-
-            List<Version> supportedVersions = new List<Version>
-            {
-                Version.Steam,
-                Version.GoG,
-                Version.Origin,
-                Version.Reloaded,
-                Version.Dvd
-            };
-
             while (true)
             {
                 if (version.DetectGameVersion() == null)
@@ -283,20 +272,10 @@ namespace TimeTrialStats
                     continue;
                 }
 
-                // Loop through all supported versions and see if they use one of it
-                for (int i = 0; i < supportedVersions.Count(); i++)
-                {
-                    if (GameVersion.Current == supportedVersions[i])
-                    {
-                        // User uses a supported version :D
-                        supportedVersion = true;
-                    }
-                }
-
-                if (supportedVersion == false)
+                if (GameVersion.Current == Version.Unknown)
                 {
                     // Display a message box telling user that it doesn't support their game version
-                    string message = $"This program doesn't support your game version. It only supports Steam, GoG, Origin, Reloaded, and Dvd version.\n\nVersion: {GameVersion.Current}\nMemorySize: {GameVersion.MemorySize}";
+                    string message = $"This program doesn't support your game version. It only supports Steam, GoG, Origin, Reloaded, Dvd, Origin (JP), and Origin (Pure TT Dlc) version.\n\nVersion: {GameVersion.Current}\nMemorySize: {GameVersion.MemorySize}";
                     DialogResult dialogResult = MessageBox.Show(message, "Unsupported Version Detected!", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
 
                     // Exit the program

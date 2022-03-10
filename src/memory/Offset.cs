@@ -11,6 +11,8 @@
             OffsetDataBase.Add(Version.Origin, structure.TimeTrial, 0x01C14D64, new int[] { 0x54, 0x1E0, 0x318 });
             OffsetDataBase.Add(Version.Reloaded, structure.TimeTrial, 0x01C14D5C, new int[] { 0x54, 0x1E0, 0x318 });
             OffsetDataBase.Add(Version.Dvd, structure.TimeTrial, 0x01C14D5C, new int[] { 0x54, 0x1E0, 0x318 });
+            OffsetDataBase.Add(Version.OriginJP, structure.TimeTrial, 0x01BE6134, new int[] { 0x50, 0x1E0, 0x318 });
+            OffsetDataBase.Add(Version.OriginDLC, structure.TimeTrial, 0x01C1BE24, new int[] { 0x50, 0x1E0, 0x318 });
         }
     }
 }
