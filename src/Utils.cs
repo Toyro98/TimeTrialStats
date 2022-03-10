@@ -18,6 +18,7 @@ namespace TimeTrialStats
         {
             switch (stretchId)
             {
+                // Normal Time Trials
                 case 1: return "Heat";
                 case 2: return "Cranes Two";
                 case 3: return "Cranes One";
@@ -41,6 +42,19 @@ namespace TimeTrialStats
                 case 22: return "Flight";
                 case 23: return "Arland";
                 case 24: return "Office";
+
+                // Pure Time Trials
+                case 26: return "Actino";
+                case 27: return "Flow";
+                case 28: return "Razzmatazz";
+                case 29: return "Velocity";
+                case 31: return "Chroma";
+                case 32: return "Reflex";
+                case 34: return "Kinetic";
+                case 35: return "Reflex Redux";
+                case 36: return "Actino Rise";
+
+                // In Main Menu
                 default: return "n/a";
             }
         }
